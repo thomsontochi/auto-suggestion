@@ -16,10 +16,15 @@ class SettingFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'key' => $this->faker->word,
-            'value' => $this->faker->word,
+        // return [
+        //     'key' => $this->faker->word,
+        //     'value' => $this->faker->word,
 
+        // ];
+
+        return [
+            'key' => $this->faker->randomElement(['theme', 'language', 'notifications', 'privacy']),
+            'value' => $this->faker->randomElement(['light', 'dark', 'en', 'es', 'enabled', 'disabled', 'public', 'private']),
         ];
     }
 }

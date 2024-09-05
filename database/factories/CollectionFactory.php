@@ -16,9 +16,16 @@ class CollectionFactory extends Factory
      */
     public function definition(): array
     {
+        // return [
+        //     'title' => $this->faker->words(3, true),
+        //      'url' => $this->faker->url,
+        // ];
+        $collectionTypes = ['Summer', 'Winter', 'Spring', 'Fall', 'Holiday', 'Casual', 'Formal', 'Sports', 'Outdoor', 'Indoor'];
+        $productCategories = ['Clothing', 'Accessories', 'Electronics', 'Home Decor', 'Kitchenware', 'Beauty', 'Fitness', 'Books', 'Toys', 'Furniture'];
+
         return [
-            'title' => $this->faker->words(3, true),
-             'url' => $this->faker->url,
+            'title' => $this->faker->randomElement($collectionTypes) . ' ' . $this->faker->randomElement($productCategories) . ' Collection',
+            'url' => $this->faker->url,
         ];
     }
 }

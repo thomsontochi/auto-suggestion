@@ -3,21 +3,17 @@ import { Head, useForm } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
 const props = defineProps({
-    settings: Array,
+    settings: Object,
 });
 
 const form = useForm({
-    display_suggestion_term:
-        props.settings.find((s) => s.key === "display_suggestion_term")
-            ?.value === "true",
-    display_collection:
-        props.settings.find((s) => s.key === "display_collection")?.value ===
-        "true",
-    display_product:
-        props.settings.find((s) => s.key === "display_product")?.value ===
-        "true",
-    max_results:
-        props.settings.find((s) => s.key === "max_results")?.value || 10,
+    display_suggestion_term: props.settings.display_suggestion_term ?? true,
+    display_collection: props.settings.display_collection ?? true,
+    display_product: props.settings.display_product ?? true,
+    max_results: props.settings.max_results ?? 10,
+    min_characters: props.settings.min_characters ?? 2,
+    search_delay: props.settings.search_delay ?? 300,
+    enable_fuzzy_search: props.settings.enable_fuzzy_search ?? false,
 });
 
 const submit = () => {
@@ -91,6 +87,47 @@ const submit = () => {
                                             max="50"
                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                         />
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="block">
+                                        <span class="text-gray-700"
+                                            >Minimum Characters for Search</span
+                                        >
+                                        <input
+                                            type="number"
+                                            v-model="form.min_characters"
+                                            min="1"
+                                            max="5"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        />
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="block">
+                                        <span class="text-gray-700"
+                                            >Search Delay (ms)</span
+                                        >
+                                        <input
+                                            type="number"
+                                            v-model="form.search_delay"
+                                            min="100"
+                                            max="1000"
+                                            step="100"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        />
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="inline-flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            v-model="form.enable_fuzzy_search"
+                                            class="form-checkbox"
+                                        />
+                                        <span class="ml-2"
+                                            >Enable Fuzzy Search</span
+                                        >
                                     </label>
                                 </div>
                             </div>

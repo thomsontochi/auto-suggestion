@@ -16,9 +16,27 @@ class SuggestionTermFactory extends Factory
      */
     public function definition(): array
     {
+        // return [
+        //     'term' => $this->faker->words(2, true),
+        //      'url' => $this->faker->url,
+        // ];
+
+        $suggestedTerms = [
+            'popular products',
+            'new arrivals',
+            'flash sale',
+            'clearance items',
+            'top rated',
+            'bestsellers',
+            'eco-friendly',
+            'limited edition',
+            'exclusive deals',
+            'trending now'
+        ];
+
         return [
-            'term' => $this->faker->words(2, true),
-             'url' => $this->faker->url,
+            'term' => $this->faker->randomElement($suggestedTerms),
+            'url' => $this->faker->url,
         ];
     }
 }
