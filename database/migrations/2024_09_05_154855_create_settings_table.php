@@ -13,9 +13,17 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
+            // $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            // $table->string('key');
+            // $table->string('value');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('key');
-            $table->string('value');
+            $table->boolean('display_suggestion_term')->default(true);
+            $table->boolean('display_collection')->default(true);
+            $table->boolean('display_product')->default(true);
+            $table->unsignedInteger('max_results')->default(10);
+            $table->unsignedInteger('min_characters')->default(2);
+            $table->unsignedInteger('search_delay')->default(300);
+            $table->boolean('enable_fuzzy_search')->default(false);
             $table->timestamps();
         });
     }

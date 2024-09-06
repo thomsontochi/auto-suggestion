@@ -1,23 +1,56 @@
 <script setup>
+import { ref } from 'vue';
 import { Head, useForm } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+
+// const props = defineProps({
+//     settings: {
+//         type: Object,
+//         default: () => ({
+//             display_suggestion_term: "" ,
+//             display_collection: "" ,
+//             display_product: "",
+//             max_results:"" ,
+//             min_characters: "",
+//             search_delay: "",
+//             enable_fuzzy_search: false,
+//         }),
+//     },
+// });
 
 const props = defineProps({
     settings: Object,
 });
 
+const successMessage = ref('');
+const errorMessage = ref('');
+
 const form = useForm({
-    display_suggestion_term: props.settings.display_suggestion_term ?? true,
-    display_collection: props.settings.display_collection ?? true,
-    display_product: props.settings.display_product ?? true,
-    max_results: props.settings.max_results ?? 10,
-    min_characters: props.settings.min_characters ?? 2,
-    search_delay: props.settings.search_delay ?? 300,
-    enable_fuzzy_search: props.settings.enable_fuzzy_search ?? false,
+    display_suggestion_term: props.settings.display_suggestion_term,
+    display_collection: props.settings.display_collection,
+    display_product: props.settings.display_product,
+    max_results: props.settings.max_results,
+    min_characters: props.settings.min_characters,
+    search_delay: props.settings.search_delay,
+    enable_fuzzy_search: props.settings.enable_fuzzy_search,
 });
 
 const submit = () => {
-    form.post(route("settings.update"));
+    form.post(route("settings.update"), {
+        preserveScroll: true,
+        onSuccess: () => {
+            successMessage.value = 'Settings updated successfully.';
+            setTimeout(() => {
+                successMessage.value = '';
+            }, 3000);
+        },
+        onError: (errors) => {
+            errorMessage.value = Object.values(errors).join(', ');
+            setTimeout(() => {
+                errorMessage.value = '';
+            }, 3000);
+        },
+    });
 };
 </script>
 
@@ -35,20 +68,23 @@ const submit = () => {
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
+                        <div v-if="successMessage" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                            {{ successMessage }}
+                        </div>
+                        <div v-if="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                            {{ errorMessage }}
+                        </div>
+
                         <form @submit.prevent="submit">
                             <div class="space-y-4">
                                 <div>
                                     <label class="inline-flex items-center">
                                         <input
                                             type="checkbox"
-                                            v-model="
-                                                form.display_suggestion_term
-                                            "
+                                            v-model="form.display_suggestion_term"
                                             class="form-checkbox"
                                         />
-                                        <span class="ml-2"
-                                            >Display Suggestion Terms</span
-                                        >
+                                        <span class="ml-2">Display Suggestion Terms</span>
                                     </label>
                                 </div>
                                 <div>
@@ -58,9 +94,7 @@ const submit = () => {
                                             v-model="form.display_collection"
                                             class="form-checkbox"
                                         />
-                                        <span class="ml-2"
-                                            >Display Collections</span
-                                        >
+                                        <span class="ml-2">Display Collections</span>
                                     </label>
                                 </div>
                                 <div>
@@ -70,16 +104,12 @@ const submit = () => {
                                             v-model="form.display_product"
                                             class="form-checkbox"
                                         />
-                                        <span class="ml-2"
-                                            >Display Products</span
-                                        >
+                                        <span class="ml-2">Display Products</span>
                                     </label>
                                 </div>
                                 <div>
                                     <label class="block">
-                                        <span class="text-gray-700"
-                                            >Max Results</span
-                                        >
+                                        <span class="text-gray-700">Max Results</span>
                                         <input
                                             type="number"
                                             v-model="form.max_results"
@@ -91,9 +121,7 @@ const submit = () => {
                                 </div>
                                 <div>
                                     <label class="block">
-                                        <span class="text-gray-700"
-                                            >Minimum Characters for Search</span
-                                        >
+                                        <span class="text-gray-700">Minimum Characters for Search</span>
                                         <input
                                             type="number"
                                             v-model="form.min_characters"
@@ -105,9 +133,7 @@ const submit = () => {
                                 </div>
                                 <div>
                                     <label class="block">
-                                        <span class="text-gray-700"
-                                            >Search Delay (ms)</span
-                                        >
+                                        <span class="text-gray-700">Search Delay (ms)</span>
                                         <input
                                             type="number"
                                             v-model="form.search_delay"
@@ -125,9 +151,7 @@ const submit = () => {
                                             v-model="form.enable_fuzzy_search"
                                             class="form-checkbox"
                                         />
-                                        <span class="ml-2"
-                                            >Enable Fuzzy Search</span
-                                        >
+                                        <span class="ml-2">Enable Fuzzy Search</span>
                                     </label>
                                 </div>
                             </div>
@@ -135,8 +159,9 @@ const submit = () => {
                                 <button
                                     type="submit"
                                     class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                                    :disabled="form.processing"
                                 >
-                                    Save Settings
+                                    {{ form.processing ? 'Saving...' : 'Save Settings' }}
                                 </button>
                             </div>
                         </form>

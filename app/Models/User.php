@@ -64,6 +64,11 @@ class User extends Authenticatable
         return $this->hasMany(Setting::class);
     }
 
+    // public function settings()
+    // {
+    //     return $this->hasOne(Setting::class);
+    // }
+
     public function searchLogs()
     {
         return $this->hasMany(SearchLog::class);

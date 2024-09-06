@@ -1,22 +1,35 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { Head } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import debounce from "lodash/debounce";
+
+const props = defineProps({
+    settings: Object,
+});
 
 const query = ref("");
 const results = ref({ terms: [], collections: [], products: [] });
 
 const search = async () => {
+    if (query.value.length < (props.settings.min_characters || 2)) {
+        results.value = { terms: [], collections: [], products: [] };
+        return;
+    }
     const response = await fetch(`/auto-suggest?term=${query.value}`);
     results.value = await response.json();
 };
 
-const debouncedSearch = debounce(search, 300);
+const debouncedSearch = debounce(search, props.settings.search_delay || 300);
 
 const handleInput = () => {
     debouncedSearch();
 };
+
+watch(() => props.settings, () => {
+    debouncedSearch.cancel();
+    debouncedSearch = debounce(search, props.settings.search_delay || 300);
+}, { deep: true });
 </script>
 
 <template>
@@ -43,8 +56,8 @@ const handleInput = () => {
                             placeholder="Search..."
                             class="w-full px-4 py-2 border rounded-md"
                         />
-                        <div v-if="query.length > 0" class="mt-4">
-                            <div v-if="results.terms.length > 0">
+                        <div v-if="query.length >= (settings.min_characters || 2)" class="mt-4">
+                            <div v-if="settings.display_suggestion_term && results.terms.length > 0">
                                 <h4 class="font-semibold">Suggestion Terms:</h4>
                                 <ul>
                                     <li
@@ -60,7 +73,7 @@ const handleInput = () => {
                                 </ul>
                             </div>
                             <div
-                                v-if="results.collections.length > 0"
+                                v-if="settings.display_collection && results.collections.length > 0"
                                 class="mt-2"
                             >
                                 <h4 class="font-semibold">Collections:</h4>
@@ -78,7 +91,7 @@ const handleInput = () => {
                                 </ul>
                             </div>
                             <div
-                                v-if="results.products.length > 0"
+                                v-if="settings.display_product && results.products.length > 0"
                                 class="mt-2"
                             >
                                 <h4 class="font-semibold">Products:</h4>

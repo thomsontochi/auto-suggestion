@@ -16,9 +16,6 @@ class SearchLogFactory extends Factory
      */
     public function definition(): array
     {
-        // return [
-        //     'term' => $this->faker->words(3, true),
-        // ];
         $searchTerms = [
             'best running shoes',
             'affordable laptops',
@@ -29,9 +26,20 @@ class SearchLogFactory extends Factory
             'hiking gear',
             'kitchen gadgets',
             'fitness trackers',
-            'children\'s books'
+            'children\'s books',
+            'budget travel tips',
+            'eco-friendly products',
+            'home workout equipment',
+            'gourmet coffee makers',
+            'pet supplies',
+            'gaming consoles',
+            'travel accessories',
+            'online courses',
+            'DIY home improvement',
+            'smartphones under 500',
+            'vegan recipes'
         ];
-
+        
         return [
             'term' => $this->faker->randomElement($searchTerms),
         ];
