@@ -13,10 +13,10 @@ const props = defineProps({
 });
 
 const search = async () => {
-    // if (query.value.length < (props.settings.min_characters || 2)) {
-    //     results.value = { terms: [], collections: [], products: [] };
-    //     return;
-    // }
+    if (query.value.length < (props.settings.min_characters || 2)) {
+        results.value = { terms: [], collections: [], products: [] };
+        return;
+    }
     const response = await fetch(`/auto-suggest?term=${query.value}`);
     results.value = await response.json();
 };

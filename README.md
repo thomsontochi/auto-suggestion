@@ -1,3 +1,101 @@
+# Laravel 11 Auto-Suggestion Feature
+
+**Built by Opia Austin Developia**
+
+## Overview
+
+This project demonstrates how to build a page with an Auto-Suggestion/Search feature using Laravel 11. The project includes a dashboard/login area for managing settings, leveraging Laravel Breeze for quick setup.
+
+## Features
+
+- **Auto-Suggestion/Search**: As you type in the search box, it automatically makes a request to the API endpoint in your Laravel app, which searches your database and returns the appropriate results.
+- **Dashboard/Login Area**: Manage settings and view reports.
+- **Settings**: Turn on/off the display of each block in the Suggestion result.
+- **Reporting**: View a paginated log of search terms used, sorted by date descending, with additional metrics.
+
+## Installation
+
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/your-repo/laravel-auto-suggestion.git
+    cd laravel-auto-suggestion
+    ```
+
+2. **Install dependencies**:
+    ```bash
+    composer install
+    npm install
+    ```
+
+3. **Set up environment variables**:
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
+
+4. **Run migrations and seeders**:
+    ```bash
+    php artisan migrate --seed
+    ```
+
+5. **Start the development server**:
+    ```bash
+    php artisan serve
+    npm run dev
+    ```
+
+## Database
+
+Choose an appropriate database (SQL or NoSQL) based on your needs. For this project, we use SQL (MySQL) due to its robustness and scalability for handling millions of products.
+
+### Database Structure
+
+- **Suggestion Term**: `terms` table with columns `term`, `url`.
+- **Collection**: `collections` table with columns `id`, `title`, `url`.
+- **Product**: `products` table with columns `id`, `title`, `url`, `brand`, `price`, `image`.
+
+### Migrations and Seeders
+
+Appropriate migrations and seeders are included to recreate the database structure and populate it with sample data.
+
+## Front-End
+
+The front-end uses a simple framework to ensure functionality. Feel free to enhance the design as needed.
+
+## API Endpoint
+
+Create an API endpoint that accepts a search term and returns the data needed to populate the Auto-Suggestion results.
+
+## Dashboard
+
+### Settings
+
+- **Display Settings**: Turn on/off the display of each block in the Suggestion result.
+- **Validation**: Ensure settings have sensible limits (e.g., a setting to select how many products/results are shown shouldn't allow 0 products).
+
+### Reporting
+
+- **Search Log**: Paginated log of search terms used, sorted by date descending.
+- **Metrics**: Add at least one metric of your choice (e.g., most searched terms). This helps in understanding user behavior and improving the search functionality.
+
+## License
+
+All rights reserved by Opia Austin Developia.
+
+---
+
+Feel free to customize this README further to suit your project's specific needs!
+
+Source: Conversation with Copilot, 06/09/2024
+(1) Laravel 11 Autocomplete Search from Database Example. https://www.itsolutionstuff.com/post/laravel-11-autocomplete-search-from-database-exampleexample.html.
+(2) tutsmake/Laravel-11-Ajax-Autocomplete-Search-Example-Tutorial. https://github.com/tutsmake/Laravel-11-Ajax-Autocomplete-Search-Example-Tutorial.
+(3) positronx.io. https://www.positronx.io/laravel-autocomplete-search-with-select2-example/.
+(4) Laravel Autocomplete Search With Jquery UI & Ajax Example. https://www.tutsmake.com/laravel-8-autocomplete-search-from-database-tutorial/.
+
+
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
