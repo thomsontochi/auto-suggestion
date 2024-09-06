@@ -4,18 +4,19 @@ import { Head } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import debounce from "lodash/debounce";
 
-const props = defineProps({
-    settings: Object,
-});
 
 const query = ref("");
 const results = ref({ terms: [], collections: [], products: [] });
 
+const props = defineProps({
+    settings: Object,
+});
+
 const search = async () => {
-    if (query.value.length < (props.settings.min_characters || 2)) {
-        results.value = { terms: [], collections: [], products: [] };
-        return;
-    }
+    // if (query.value.length < (props.settings.min_characters || 2)) {
+    //     results.value = { terms: [], collections: [], products: [] };
+    //     return;
+    // }
     const response = await fetch(`/auto-suggest?term=${query.value}`);
     results.value = await response.json();
 };
@@ -35,12 +36,16 @@ watch(() => props.settings, () => {
 <template>
     <Head title="Dashboard" />
 
+   
+
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Dashboard
             </h2>
         </template>
+
+        <!-- <pre>{{ settings }}</pre> -->
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

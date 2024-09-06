@@ -12,7 +12,7 @@ class ReportingController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $searchLogs = $user->searchLogs()->latest()->paginate(20);
+        $searchLogs = $user->searchLogs()->latest()->paginate(6);
         $uniqueSearchTermsCount = $user->searchLogs()->distinct('term')->count();
     
         $topSearchTerms = $user->searchLogs()

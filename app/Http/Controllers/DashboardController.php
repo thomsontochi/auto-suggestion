@@ -44,10 +44,13 @@ class DashboardController extends Controller
 
     public function autoSuggest(Request $request)
     {
-        dd($request);
         $term = $request->input('term');
         $user = auth()->user();
+
         $settings = $user->settings()->first();
+        // dd($settings);
+
+
 
         if (!$settings) {
             return response()->json(['error' => 'Settings not found'], 404);

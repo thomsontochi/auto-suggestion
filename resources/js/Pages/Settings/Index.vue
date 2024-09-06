@@ -20,19 +20,20 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
 const props = defineProps({
     settings: Object,
+    required: true,
 });
 
 const successMessage = ref('');
 const errorMessage = ref('');
 
 const form = useForm({
-    display_suggestion_term: props.settings.display_suggestion_term,
-    display_collection: props.settings.display_collection,
-    display_product: props.settings.display_product,
-    max_results: props.settings.max_results,
-    min_characters: props.settings.min_characters,
-    search_delay: props.settings.search_delay,
-    enable_fuzzy_search: props.settings.enable_fuzzy_search,
+    display_suggestion_term: props.settings[0].display_suggestion_term,
+    display_collection: props.settings[0].display_collection,
+    display_product: props.settings[0].display_product,
+    max_results: props.settings[0].max_results,
+    min_characters: props.settings[0].min_characters,
+    search_delay: props.settings[0].search_delay,
+    enable_fuzzy_search: props.settings[0].enable_fuzzy_search,
 });
 
 const submit = () => {
@@ -57,12 +58,16 @@ const submit = () => {
 <template>
     <Head title="Settings" />
 
+   
+
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Settings
             </h2>
         </template>
+
+         <!-- <pre>{{ props.settings }}</pre> -->
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -85,6 +90,7 @@ const submit = () => {
                                             class="form-checkbox"
                                         />
                                         <span class="ml-2">Display Suggestion Terms</span>
+                                        
                                     </label>
                                 </div>
                                 <div>

@@ -1,5 +1,5 @@
 <script setup>
-import { Head } from "@inertiajs/vue3";
+import { Head ,Link } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
 const props = defineProps({
@@ -59,7 +59,27 @@ const props = defineProps({
                                 </tr>
                             </tbody>
                         </table>
-                        <!-- Add pagination here if needed -->
+                        <!-- Pagination controls -->
+                        <div class="mt-4 flex justify-between">
+                            <Link 
+                                v-if="searchLogs.prev_page_url" 
+                                :href="searchLogs.prev_page_url"
+                                class="px-3 py-1 bg-gray-300 rounded"
+                            >
+                                Previous
+                            </Link>
+                            
+                            <Link 
+                                v-if="searchLogs.next_page_url" 
+                                :href="searchLogs.next_page_url"
+                                class="px-3 py-1 bg-gray-300 rounded"
+                            >
+                                Next
+                            </Link>
+                        </div>
+                        <div class="mt-2 text-center">
+                            Page {{ searchLogs.current_page }} of {{ searchLogs.last_page }}
+                        </div>
                     </div>
                 </div>
             </div>
